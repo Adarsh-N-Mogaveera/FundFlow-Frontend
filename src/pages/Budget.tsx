@@ -66,7 +66,7 @@ const BudgetPage = () => {
                     <span>{cat.icon}</span> {cat.label}
                   </span>
                   <span className={cn("text-sm font-medium", statusColor)}>
-                    {limit > 0 ? `${pct.toFixed(0)}%` : "—"}
+                    {limit > 0 ? `${pct.toFixed(0)}%` : "No Budget Set"}
                   </span>
                 </div>
 

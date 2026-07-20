@@ -42,3 +42,13 @@ export const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
   utilities: "hsl(45, 80%, 50%)",
   other: "hsl(200, 15%, 55%)",
 };
+
+export interface User {
+  id: string;
+  username: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+}

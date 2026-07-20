@@ -1,55 +1,21 @@
-// import { useState, useEffect, useCallback } from "react";
-// import { Budget, ExpenseCategory } from "@/lib/types";
-
-// const STORAGE_KEY = "expense-tracker-budgets";
-
-// function loadBudgets(): Budget[] {
-//   try {
-//     const data = localStorage.getItem(STORAGE_KEY);
-//     return data ? JSON.parse(data) : [];
-//   } catch {
-//     return [];
-//   }
-// }
-
-// export function useBudgets() {
-//   const [budgets, setBudgets] = useState<Budget[]>(loadBudgets);
-
-//   useEffect(() => {
-//     localStorage.setItem(STORAGE_KEY, JSON.stringify(budgets));
-//   }, [budgets]);
-
-//   const setBudget = useCallback((category: ExpenseCategory, limit: number) => {
-//     setBudgets((prev) => {
-//       const existing = prev.findIndex((b) => b.category === category);
-//       if (existing >= 0) {
-//         const updated = [...prev];
-//         updated[existing] = { category, limit };
-//         return updated;
-//       }
-//       return [...prev, { category, limit }];
-//     });
-//   }, []);
-
-//   const getBudget = useCallback(
-//     (category: ExpenseCategory) => budgets.find((b) => b.category === category),
-//     [budgets]
-//   );
-
-//   return { budgets, setBudget, getBudget };
-// }
-
 import { useState, useEffect, useCallback } from "react";
 import { Budget, ExpenseCategory } from "@/lib/types";
+import { useAuth } from "@/hooks/use-auth";
 
 const API_BASE_URL = "http://localhost:8080/api/budgets";
 
 export function useBudgets() {
   const [budgets, setBudgets] = useState<Budget[]>([]);
+  const { token } = useAuth();
 
   const fetchBudgets = useCallback(async () => {
+    if (!token) return;
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(API_BASE_URL, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setBudgets(data);
@@ -57,26 +23,30 @@ export function useBudgets() {
     } catch (error) {
       console.error("Error fetching budgets:", error);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchBudgets();
   }, [fetchBudgets]);
 
   const setBudget = useCallback(async (category: ExpenseCategory, limit: number) => {
+    if (!token) return;
     try {
       const response = await fetch(`${API_BASE_URL}/${category}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({ category, limit }),
       });
       if (response.ok) {
-        fetchBudgets();
+        await fetchBudgets();
       }
     } catch (error) {
       console.error("Error setting budget:", error);
     }
-  }, [fetchBudgets]);
+  }, [fetchBudgets, token]);
 
   const getBudget = useCallback(
     (category: ExpenseCategory) => budgets.find((b) => b.category === category),
