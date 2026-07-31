@@ -22,7 +22,7 @@ export interface Budget {
 }
 
 export const CATEGORIES: { value: ExpenseCategory; label: string; icon: string }[] = [
-  { value: "food", label: "Food", icon: "🍕" },
+  { value: "food", label: "Food", icon: "😋" },
   { value: "transport", label: "Transport", icon: "🚗" },
   { value: "housing", label: "Housing", icon: "🏠" },
   { value: "entertainment", label: "Entertainment", icon: "🎬" },
