@@ -173,7 +173,7 @@ export default function InvestmentsPage() {
 
   const fetchMarketAssets = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/market/assets");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/market/assets`);
       if (res.ok) {
         const data = await res.json();
         if (data && data.length > 0) setMarketAssets(data);
@@ -186,7 +186,7 @@ export default function InvestmentsPage() {
   const fetchUserInvestments = async () => {
     if (!token) return;
     try {
-      const res = await fetch("http://localhost:8080/api/investments", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/investments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -206,7 +206,7 @@ export default function InvestmentsPage() {
 
     try {
       if (token) {
-        const res = await fetch("http://localhost:8080/api/market/sync-portfolio", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/market/sync-portfolio`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -333,7 +333,7 @@ export default function InvestmentsPage() {
 
     if (token) {
       try {
-        const res = await fetch("http://localhost:8080/api/investments", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/investments`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -365,7 +365,7 @@ export default function InvestmentsPage() {
   const handleDeletePosition = async (id: string) => {
     if (token) {
       try {
-        await fetch(`http://localhost:8080/api/investments/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/investments/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -389,7 +389,7 @@ export default function InvestmentsPage() {
 
     if (token) {
       try {
-        await fetch(`http://localhost:8080/api/investments/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/investments/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
