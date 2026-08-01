@@ -143,7 +143,7 @@ export default function Dashboard() {
       }, 800);
     } else {
       try { 
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expenses/ai`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}api/expenses/ai`, {
           method: "POST",
           headers: {
             "Content-Type": "text/plain",

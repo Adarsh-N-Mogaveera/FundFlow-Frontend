@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Expense } from "@/lib/types";
 import { useAuth } from "@/hooks/use-auth";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/expenses`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}api/expenses`;
 
 export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
